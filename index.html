@@ -2,43 +2,64 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Sistema de Turnos Avanzado</title>
+  <title>Dashboard de Turnos</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h1>Sistema de Gestión de Turnos</h1>
-<!-- Sección de registro de turnos-->
-<section class="card">
-  <h2>Registrar nuevo turno</h2>
-  <label for="nombreCliente">Nombre del cliente:</label>
-  <br><br>
-  <input type="text" id="nombreCliente" placeholder="Nombre del cliente">
-  <br><br>
-  <label for="prioridad">Prioridad:</label>
-  <br><br>
-  <select id="prioridad">
-    <option value="normal">Normal</option>
-    <option value="alta">Alta prioridad</option>
-  </select>
+<div class="dashboard">
 
-  <button id="btnRegistrar">Registrar turno</button>
-  <p id="mensaje"></p>
-</section>
+  <!-- Panel izquierdo -->
+  <aside class="sidebar">
+    <h2>Gestión</h2>
+    <p>De Turnos</p>
+  </aside>
 
-<!-- Sección de atencion de turnos-->
-<section class="card">
-  <h2>Atención</h2>
-  <button id="btnAtender">Atender siguiente turno</button>
-  <p id="turnoActual"></p>
-</section>
+  <!-- Contenido principal -->
+  <main class="content">
 
-<!-- Sección de turnos pendientes-->
-<section class="card">
-  <h2>Turnos pendientes</h2>
-  <ul id="listaTurnos"></ul>
-</section>
+    <!-- Contador -->
+    <section class="contador">
+      <span>Turno en atención</span>
+      <h1 id="pantallaTurno">---</h1>
+    </section>
 
-<script src="script.js"></script>
-</body>
-</html>
+    <!-- Grid principal -->
+    <section class="grid">
+      <!-- Registro de turnos -->
+      <div class="card">
+        <h3>Nuevo turno</h3>
+        <input type="text" id="nombreCliente" placeholder="Nombre del cliente">
+        <select id="prioridad">
+          <option value="normal">Normal</option>
+          <option value="alta">Alta prioridad</option>
+        </select>
+        <button id="btnRegistrar">Registrar</button>
+        <p id="mensaje"></p>
+      </div>
+
+      <!-- Atención de turnos -->
+      <div class="card">
+        <h3>Atención</h3>
+        <button id="btnAtender" class="btn-primary">
+          Atender siguiente turno
+        </button>
+      </div>
+
+      <!-- Turnos pendientes -->
+      <div class="card">
+        <h3>Turnos pendientes</h3>
+        <ul id="listaTurnos"></ul>
+      </div>
+
+      <!-- Historial de turnos -->
+      <div class="card">
+        <h3>Historial</h3>
+        <ul id="historialTurnos"></ul>
+      </div>
+
+    </section>
+
+    <script src="script.js"></script>
+  </main>
+</div>

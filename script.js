@@ -1,4 +1,5 @@
 let turnos = [];
+let historial = [];
 let contadorTurnos = 1;
 
 // DOM
@@ -7,8 +8,9 @@ const prioridadSelect = document.getElementById("prioridad");
 const btnRegistrar = document.getElementById("btnRegistrar");
 const btnAtender = document.getElementById("btnAtender");
 const listaTurnos = document.getElementById("listaTurnos");
+const historialTurnos = document.getElementById("historialTurnos");
 const mensaje = document.getElementById("mensaje");
-const turnoActual = document.getElementById("turnoActual");
+const pantallaTurno = document.getElementById("pantallaTurno");
 
 // Registrar turno
 btnRegistrar.addEventListener("click", () => {
@@ -20,41 +22,48 @@ btnRegistrar.addEventListener("click", () => {
     return;
   }
 
-  const turno = {
+  turnos.push({
     id: contadorTurnos++,
     nombre,
-    fechaCreacion: new Date().toLocaleString(),
     prioridad,
+    fechaCreacion: new Date().toLocaleString(),
     estado: "pendiente"
-  };
+  });
 
-  turnos.push(turno);
-  mensaje.textContent = `Turno ${turno.id} registrado (${prioridad}).`;
-
+  mensaje.textContent = "Turno registrado correctamente.";
   nombreClienteInput.value = "";
   renderTurnos();
 });
 
-// Atender siguiente turno (prioridad primero)
+// Atender siguiente turno
 btnAtender.addEventListener("click", () => {
   const turno =
     turnos.find(t => t.estado === "pendiente" && t.prioridad === "alta") ||
     turnos.find(t => t.estado === "pendiente" && t.prioridad === "normal");
 
   if (!turno) {
-    turnoActual.textContent = "No hay turnos disponibles.";
+    pantallaTurno.textContent = "---";
+    alert("No hay turnos disponibles");
     return;
   }
 
   turno.estado = "en_atencion";
-  turnoActual.textContent = `Atendiendo turno ${turno.id} (${turno.prioridad})`;
+  pantallaTurno.textContent = `A-${turno.id}`;
 
-  // Simulación de SLA / atención
+  const tiempoAtencion = turno.prioridad === "alta" ? 1500 : 2500;
+
   setTimeout(() => {
     turno.estado = "atendido";
-    turnoActual.textContent = `Turno ${turno.id} atendido.`;
+
+    historial.push({
+      ...turno,
+      fechaAtencion: new Date().toLocaleString()
+    });
+
+    pantallaTurno.textContent = "---";
     renderTurnos();
-  }, turno.prioridad === "alta" ? 1500 : 2500);
+    renderHistorial();
+  }, tiempoAtencion);
 
   renderTurnos();
 });
@@ -63,8 +72,8 @@ btnAtender.addEventListener("click", () => {
 function cancelarTurno(id) {
   const turno = turnos.find(t => t.id === id);
 
-  if (turno.estado === "atendido") {
-    alert("No se puede cancelar un turno atendido.");
+  if (turno.estado !== "pendiente") {
+    alert("No se puede cancelar este turno.");
     return;
   }
 
@@ -72,7 +81,7 @@ function cancelarTurno(id) {
   renderTurnos();
 }
 
-// Renderizar turnos pendientes
+// Render turnos pendientes
 function renderTurnos() {
   listaTurnos.innerHTML = "";
 
@@ -80,7 +89,6 @@ function renderTurnos() {
     .filter(t => t.estado === "pendiente")
     .forEach(turno => {
       const li = document.createElement("li");
-
       li.innerHTML = `
         <strong class="${turno.prioridad === "alta" ? "prioridad-alta" : ""}">
           Turno ${turno.id} - ${turno.nombre}
@@ -90,7 +98,22 @@ function renderTurnos() {
         </div>
         <button onclick="cancelarTurno(${turno.id})">Cancelar</button>
       `;
-
       listaTurnos.appendChild(li);
     });
+}
+
+// Render historial de turnos atendidos
+function renderHistorial() {
+  historialTurnos.innerHTML = "";
+
+  historial.forEach(turno => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      Turno ${turno.id} - ${turno.nombre}
+      <div class="estado">
+        Prioridad: ${turno.prioridad} | Atendido: ${turno.fechaAtencion}
+      </div>
+    `;
+    historialTurnos.appendChild(li);
+  });
 }
