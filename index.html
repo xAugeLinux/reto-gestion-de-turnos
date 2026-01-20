@@ -9,13 +9,13 @@
 
 <div class="dashboard">
 
-  <!-- Panel izquierdo -->
+  <!-- Panel lateral -->
   <aside class="sidebar">
-    <h2>Gestión</h2>
-    <p>De Turnos</p>
+    <h2>Admin</h2>
+    <p>Sistema de Turnos</p>
   </aside>
 
-  <!-- Contenido principal -->
+  <!-- Contenido -->
   <main class="content">
 
     <!-- Contador -->
@@ -24,9 +24,10 @@
       <h1 id="pantallaTurno">---</h1>
     </section>
 
-    <!-- Grid principal -->
+    <!-- Grid -->
     <section class="grid">
-      <!-- Registro de turnos -->
+
+      <!-- Registro -->
       <div class="card">
         <h3>Nuevo turno</h3>
         <input type="text" id="nombreCliente" placeholder="Nombre del cliente">
@@ -34,11 +35,16 @@
           <option value="normal">Normal</option>
           <option value="alta">Alta prioridad</option>
         </select>
-        <button id="btnRegistrar">Registrar</button>
+        <button id="btnRegistrar" class="btn-primary">Registrar</button>
         <p id="mensaje"></p>
       </div>
 
-      <!-- Atención de turnos -->
+      <!-- Pendientes -->
+      <div class="card">
+        <h3>Turnos pendientes</h3>
+        <ul id="listaTurnos"></ul>
+      </div>
+      <!-- Atención -->
       <div class="card">
         <h3>Atención</h3>
         <button id="btnAtender" class="btn-primary">
@@ -46,20 +52,16 @@
         </button>
       </div>
 
-      <!-- Turnos pendientes -->
+      <!-- Historial -->
       <div class="card">
-        <h3>Turnos pendientes</h3>
-        <ul id="listaTurnos"></ul>
-      </div>
-
-      <!-- Historial de turnos -->
-      <div class="card">
-        <h3>Historial</h3>
+        <h3>Historial de atendidos</h3>
         <ul id="historialTurnos"></ul>
       </div>
 
     </section>
-
-    <script src="script.js"></script>
   </main>
 </div>
+
+<script src="script.js"></script>
+</body>
+</html>
